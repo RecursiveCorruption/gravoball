@@ -30,7 +30,7 @@ public class GravoBallGame extends ApplicationAdapter {
             balls.add(new Chaser(random.nextFloat() * Gdx.graphics.getWidth(), random.nextFloat() * Gdx.graphics.getHeight()));
         }
         for (Ball ball : balls) {
-            ball.update(this);
+            ball.update(this, Gdx.graphics.getDeltaTime());
         }
     }
 
