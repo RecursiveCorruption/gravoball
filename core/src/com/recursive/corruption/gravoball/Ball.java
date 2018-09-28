@@ -15,7 +15,7 @@ abstract public class Ball{
         this.radius = radius;
         this.color = color;
         this.mass = mass;
-        this.velocity = new Vector2();
+        this.velocity = new Vector2(0,0);
     }
 
     final void render(Renderer renderer) {
