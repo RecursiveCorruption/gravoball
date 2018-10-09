@@ -6,12 +6,34 @@ import com.badlogic.gdx.graphics.GL20;
 
 import java.util.ArrayList;
 import java.util.Random;
+//
+import java.util.Timer;
+import java.util.TimerTask;
+
 
 public class GravoBallGame extends ApplicationAdapter {
     private Renderer renderer;
     private ArrayList<Ball> balls = new ArrayList<Ball>();
+    private ArrayList<Ball> ballsToRemove = new ArrayList<Ball>();
     private Player player;
     private Random random;
+    //private  Timer timer;
+    Timer timer = new Timer();
+    private  long period = 1000L;
+
+    TimerTask repeatedTask = new TimerTask() {
+        public void run() {
+            if (balls.size() < 50) {
+                balls.add(new comet(random.nextFloat() * Gdx.graphics.getWidth(), random.nextFloat() * Gdx.graphics.getHeight()));
+
+            }
+
+        }
+    };
+
+    long delay  = 1000L;
+
+
 
     Player getPlayer() {
         return player;
@@ -23,15 +45,25 @@ public class GravoBallGame extends ApplicationAdapter {
         random = new Random();
         player = new Player(random.nextFloat() * Gdx.graphics.getWidth(), random.nextFloat() * Gdx.graphics.getHeight());
         balls.add(player);
+        timer.scheduleAtFixedRate(repeatedTask,period,delay);
+        ballsToRemove = new ArrayList<Ball>();
+    }
+
+    public void removeBall(Ball ball) {
+        ballsToRemove.add(ball);
     }
 
     private void update() {
-        while (balls.size() < 20) {
+        if (balls.size() < 45) {
             balls.add(new Chaser(random.nextFloat() * Gdx.graphics.getWidth(), random.nextFloat() * Gdx.graphics.getHeight()));
-        }
+
+            }
+
         for (Ball ball : balls) {
             ball.update(this, Gdx.graphics.getDeltaTime());
         }
+        balls.removeAll(ballsToRemove);
+        ballsToRemove.clear();
     }
 
     @Override
