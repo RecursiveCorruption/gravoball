@@ -14,12 +14,17 @@ public class GravoBallGame extends ApplicationAdapter {
     private ArrayList<Entity> entitiesToRemove = new ArrayList<>();
     private Player player;
     private Random random;
-    private float timeTillSpawn = 0f;
+    private float timeTillSpawn;
+    private int points;
 
     private static final float SPAWN_PERIOD = 0.1f; // in seconds
 
     Player getPlayer() {
         return player;
+    }
+
+    int getPoints() {
+        return points;
     }
 
     @Override
@@ -30,6 +35,7 @@ public class GravoBallGame extends ApplicationAdapter {
         entities.add(player);
         entitiesToRemove = new ArrayList<>();
         timeTillSpawn = 0f;
+        points = 0;
     }
 
     public void removeEntity(Entity ball) {
