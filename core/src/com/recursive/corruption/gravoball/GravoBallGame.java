@@ -12,8 +12,8 @@ import java.util.TimerTask;
 
 public class GravoBallGame extends ApplicationAdapter {
     private Renderer renderer;
-    private ArrayList<Ball> balls = new ArrayList<Ball>();
-    private ArrayList<Ball> ballsToRemove = new ArrayList<Ball>();
+    private ArrayList<Entity> entities = new ArrayList<>();
+    private ArrayList<Entity> entitiesToRemove = new ArrayList<>();
     private Player player;
     private Random random;
 
@@ -23,8 +23,8 @@ public class GravoBallGame extends ApplicationAdapter {
 
     private TimerTask repeatedTask = new TimerTask() {
         public void run() {
-            if (balls.size() < 50) {
-                balls.add(new comet(random.nextFloat() * Gdx.graphics.getWidth(), random.nextFloat() * Gdx.graphics.getHeight()));
+            if (entities.size() < 50) {
+                entities.add(new comet(random.nextFloat() * Gdx.graphics.getWidth(), random.nextFloat() * Gdx.graphics.getHeight()));
             }
         }
     };
@@ -39,25 +39,25 @@ public class GravoBallGame extends ApplicationAdapter {
         renderer = new Renderer();
         random = new Random();
         player = new Player(random.nextFloat() * Gdx.graphics.getWidth(), random.nextFloat() * Gdx.graphics.getHeight());
-        balls.add(player);
+        entities.add(player);
         timer.scheduleAtFixedRate(repeatedTask, PERIOD, DELAY);
-        ballsToRemove = new ArrayList<Ball>();
+        entitiesToRemove = new ArrayList<Entity>();
     }
 
-    public void removeBall(Ball ball) {
-        ballsToRemove.add(ball);
+    public void removeEntity(Entity ball) {
+        entitiesToRemove.add(ball);
     }
 
     private void update() {
-        if (balls.size() < 45) {
-            balls.add(new Chaser(random.nextFloat() * Gdx.graphics.getWidth(), random.nextFloat() * Gdx.graphics.getHeight()));
+        if (entities.size() < 45) {
+            entities.add(new Chaser(random.nextFloat() * Gdx.graphics.getWidth(), random.nextFloat() * Gdx.graphics.getHeight()));
         }
 
-        for (Ball ball : balls) {
-            ball.update(this, Gdx.graphics.getDeltaTime());
+        for (Entity entity : entities) {
+            entity.update(this, Gdx.graphics.getDeltaTime());
         }
-        balls.removeAll(ballsToRemove);
-        ballsToRemove.clear();
+        entities.removeAll(entitiesToRemove);
+        entitiesToRemove.clear();
     }
 
     @Override
@@ -72,8 +72,8 @@ public class GravoBallGame extends ApplicationAdapter {
         Gdx.gl.glDisable(GL20.GL_BLEND);
 
         renderer.begin();
-        for (Ball ball : balls) {
-            ball.render(renderer);
+        for (Entity entity : entities) {
+            entity.render(renderer);
         }
         renderer.end();
     }
