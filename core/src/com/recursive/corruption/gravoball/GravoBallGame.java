@@ -24,7 +24,7 @@ public class GravoBallGame extends ApplicationAdapter {
     private TimerTask repeatedTask = new TimerTask() {
         public void run() {
             if (entities.size() < 50) {
-                entities.add(new comet(random.nextFloat() * Gdx.graphics.getWidth(), random.nextFloat() * Gdx.graphics.getHeight()));
+                entities.add(new Comet(random.nextFloat() * Gdx.graphics.getWidth(), random.nextFloat() * Gdx.graphics.getHeight()));
             }
         }
     };

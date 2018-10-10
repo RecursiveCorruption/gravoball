@@ -4,8 +4,8 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 
 
-public class comet extends Ball {
-    comet(float x, float y) {
+public class Comet extends Ball {
+    Comet(float x, float y) {
         super(x, y, 8.f, 100.f, new Color((float) Math.random(), (float) Math.random(), (float) Math.random(), 1.0f));
     }
 
