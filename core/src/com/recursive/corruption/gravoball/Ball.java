@@ -3,23 +3,22 @@ package com.recursive.corruption.gravoball;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 
-abstract public class Ball {
+abstract public class Ball extends PhysicsEntity {
     private Color color;
-    float x, y, radius, mass;
-    Vector2 velocity;
 
     Ball(float x, float y, float radius, float mass, Color color) {
-        this.x = x;
-        this.y = y;
-        this.radius = radius;
+        super(new Vector2(x, y), radius, mass);
         this.color = color;
-        this.mass = mass;
-        this.velocity = new Vector2(0, 0);
     }
 
     final void render(Renderer renderer) {
-        renderer.circle(x + radius / 2.f, y + radius / 2.f, radius, color);
+        renderer.circle(pos.x + radius / 2.f, pos.y + radius / 2.f, radius, color);
     }
 
-    abstract void update(GravoBallGame game, float dt);
+    void updateBall(GravoBallGame game, float dt) { }
+
+    final void update(GravoBallGame game, float dt) {
+        updateBall(game, dt);
+        updatePhysics(game, dt);
+    }
 }
