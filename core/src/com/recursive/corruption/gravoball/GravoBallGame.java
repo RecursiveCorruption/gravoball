@@ -15,7 +15,7 @@ public class GravoBallGame extends ApplicationAdapter {
     private Player player;
     private Random random;
     private float timeTillSpawn;
-    private int points;
+    private float points;
 
     private static final float SPAWN_PERIOD = 0.1f; // in seconds
 
@@ -23,8 +23,12 @@ public class GravoBallGame extends ApplicationAdapter {
         return player;
     }
 
-    int getPoints() {
+    float getPoints() {
         return points;
+    }
+
+    void scorePoints(float amount) {
+        points += amount;
     }
 
     @Override

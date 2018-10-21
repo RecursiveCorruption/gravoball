@@ -12,6 +12,7 @@ public class Player extends Ball {
     public void updateBall(GravoBallGame game, float playerDt) {
         pos.x = Gdx.input.getX();
         pos.y = Gdx.graphics.getHeight() - Gdx.input.getY();
+        game.scorePoints(playerDt);
     }
 
     @Override
