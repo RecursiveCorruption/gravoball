@@ -48,4 +48,9 @@ public abstract class PhysicsEntity extends Entity {
         // Technically shouldn't divide by mass, but allows variable acceleration
         return delta.scl((GRAVITY * b.mass) / (dist * (float)Math.log(dist)));
     }
+
+    double calcDistanceTo(PhysicsEntity b) {
+        Vector2 delta = new Vector2(b.pos).sub(pos);
+        return delta.len();
+    }
 }

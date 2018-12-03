@@ -17,7 +17,8 @@ public class GravoBallGame extends ApplicationAdapter {
     private float timeTillSpawn;
     private float points;
 
-    private static final float SPAWN_PERIOD = 0.1f; // in seconds
+    private static final float SPAWN_PERIOD = 0.2f; // in seconds
+    private static final int MAX_ENTITIES = 5555;   //TOO MUCH??
 
     Player getPlayer() {
         return player;
@@ -51,19 +52,35 @@ public class GravoBallGame extends ApplicationAdapter {
 
         for (Entity entity : entities) {
             entity.update(this, dt);
+            tryCollideWithPlayer(entity);
         }
         entities.removeAll(entitiesToRemove);
         entitiesToRemove.clear();
     }
 
+    // colliding with the player will hurt the player and stop the ball
+    private boolean tryCollideWithPlayer(Entity entity) {
+        if (entity instanceof Ball && !entity.equals(player)) {
+            Ball ballEntity = (Ball) entity;
+            double distToPlayer = ballEntity.calcDistanceTo(player);
+            if (distToPlayer < player.getRadius() + ballEntity.getRadius()) {
+                System.out.println("----------DMG: " + player.hurt(ballEntity));
+                //ballEntity.vel = new Vector2(0,0);
+                return true;
+            }
+        }
+        return false;
+    }
+
     private void updateSpawner(float dt) {
         timeTillSpawn -= dt;
-        if (timeTillSpawn < 0f && entities.size() < 45) {
+        if (timeTillSpawn < 0f && entities.size() < MAX_ENTITIES) {
             timeTillSpawn = SPAWN_PERIOD;
             if (random.nextFloat() < 0.85) {
                 entities.add(new Chaser(random.nextFloat() * Gdx.graphics.getWidth(), random.nextFloat() * Gdx.graphics.getHeight()));
             } else {
-                entities.add(new Comet(random.nextFloat() * Gdx.graphics.getWidth(), random.nextFloat() * Gdx.graphics.getHeight()));
+                entities.add(new RandomComet(random.nextFloat() * Gdx.graphics.getWidth(), random.nextFloat() * Gdx.graphics.getHeight()));
+                //entities.add(new Comet(random.nextFloat() * Gdx.graphics.getWidth(), random.nextFloat() * Gdx.graphics.getHeight()));
             }
         }
     }
