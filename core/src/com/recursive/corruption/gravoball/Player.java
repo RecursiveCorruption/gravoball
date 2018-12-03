@@ -52,7 +52,7 @@ public class Player extends Ball {
      */
     public int hurt(PhysicsEntity physicsEntity) {
         int damage = 8;
-        //damage += physicsEntity.getMass();
+        damage += physicsEntity.getMass() / 7;
         //damage /= 7;
         health -= damage;
         return damage;
