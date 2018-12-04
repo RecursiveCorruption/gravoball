@@ -4,6 +4,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 
+
+
+
 public class Player extends Ball {
 
     private int health = 100;
@@ -11,16 +14,27 @@ public class Player extends Ball {
     private boolean isDead = false;
 
     Player(float x, float y) {
-        super(x, y, 6.f, 1000.f, new Color(1.0f, .1f, .1f, 1.0f));
+        super(x, y, 6.f, 1.f, new Color(1.0f, .1f, .1f, 1.0f));
+
     }
 
     public void updateBall(GravoBallGame game, float playerDt) {
         pos.x = Gdx.input.getX();
         pos.y = Gdx.graphics.getHeight() - Gdx.input.getY();
 
+        // regen health every frame
         if (!isDead && health < 100) {
             health++;
         }
+
+        //gain mass every frame exponentially - makes a dramatic start
+        if (mass < 250) {
+            mass *= 1.027;
+            mass += 0.25;
+        } else {
+            mass += 0.5;
+        }
+        //System.out.println("Mass: " + mass);
 
         getLivingStatus();
 
@@ -31,15 +45,18 @@ public class Player extends Ball {
     // Am I alive?
     private boolean getLivingStatus() {
         if (health <= 0) {
+            if (!isDead) {
+                //first frame being dead
+                System.out.println("You are very dead");
+            }
             isDead = true;
-            System.out.println("You are very dead");
+            radius = 9999999;
             return false;
         } else {
             System.out.println("HP: " + health);
             return true;
         }
     }
-
 
     public int getHealth() {
         return health;
@@ -51,10 +68,13 @@ public class Player extends Ball {
      * @return damage dealt to player
      */
     public int hurt(PhysicsEntity physicsEntity) {
-        int damage = 8;
-        damage += physicsEntity.getMass() / 7;
+        int damage = 11;
+        //damage += physicsEntity.getMass() / 7;
         //damage /= 7;
         health -= damage;
+        if (!isDead) {
+            System.out.println("----------DMG: " + damage);
+        }
         return damage;
     }
 

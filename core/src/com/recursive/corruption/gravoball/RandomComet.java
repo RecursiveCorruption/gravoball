@@ -3,14 +3,14 @@ package com.recursive.corruption.gravoball;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 
-public class RandomComet extends Ball {
+public class RandomComet extends Comet {
 
     RandomComet(float x, float y) {
-        super(x, y, 8.f, 100.f, new Color((float) Math.random(), (float) Math.random(), (float) Math.random(), 1.0f));
+        super(x, y);
         double randomScaler = Math.random();
         this.radius = (float) ((randomScaler * 20.f) + 5);
         this.mass = this.radius * this.radius / 7;
-        this.setColor(new Color((float) randomScaler, (float) randomScaler, 1.0f - (float) randomScaler, 1.0f));
+        //this.setColor(new Color((float) randomScaler, (float) randomScaler, 1.0f - (float) randomScaler, 1.0f));
     }
 
     @Override

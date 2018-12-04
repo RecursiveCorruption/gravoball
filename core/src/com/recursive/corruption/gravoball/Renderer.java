@@ -4,10 +4,22 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 public class Renderer {
-    private ShapeRenderer shapeRenderer = new ShapeRenderer();
+
+    private ShapeRenderer shapeRenderer= new ShapeRenderer();
+
+    private ShapeRenderer.ShapeType shapeType;
+
+    public Renderer() {
+        shapeType = ShapeRenderer.ShapeType.Filled;
+    }
+
+    public Renderer(ShapeRenderer.ShapeType shapeType) {
+        this.shapeType = shapeType;
+    }
+
 
     public void begin() {
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        shapeRenderer.begin(shapeType);
     }
 
     public void end() {

@@ -22,6 +22,10 @@ abstract public class Ball extends PhysicsEntity {
         updatePhysics(game, dt);
     }
 
+    public Color getColor() {
+        return color;
+    }
+
     protected void setColor(Color newColor) {
         this.color = newColor;
     }

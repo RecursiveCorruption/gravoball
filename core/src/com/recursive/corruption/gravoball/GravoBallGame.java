@@ -11,13 +11,14 @@ import java.util.Random;
 public class GravoBallGame extends ApplicationAdapter {
     private Renderer renderer;
     private ArrayList<Entity> entities = new ArrayList<>();
+    private ArrayList<Entity> entitiesToAdd = new ArrayList<>();
     private ArrayList<Entity> entitiesToRemove = new ArrayList<>();
     private Player player;
     private Random random;
     private float timeTillSpawn;
     private float points;
 
-    private static final float SPAWN_PERIOD = 0.2f; // in seconds
+    private static final float SPAWN_PERIOD = 0.37f; // in seconds
     private static final int MAX_ENTITIES = 5555;   //TOO MUCH??
 
     Player getPlayer() {
@@ -48,24 +49,27 @@ public class GravoBallGame extends ApplicationAdapter {
     }
 
     private void update(float dt) {
+        entities.addAll(entitiesToAdd);
+        entitiesToAdd.clear();
         updateSpawner(dt);
 
         for (Entity entity : entities) {
             entity.update(this, dt);
             tryCollideWithPlayer(entity);
         }
+
         entities.removeAll(entitiesToRemove);
         entitiesToRemove.clear();
     }
 
-    // colliding with the player will hurt the player and stop the ball
+    // colliding with the player will hurt the player
     private boolean tryCollideWithPlayer(Entity entity) {
         if (entity instanceof Ball && !entity.equals(player)) {
             Ball ballEntity = (Ball) entity;
             double distToPlayer = ballEntity.calcDistanceTo(player);
             if (distToPlayer < player.getRadius() + ballEntity.getRadius()) {
-                System.out.println("----------DMG: " + player.hurt(ballEntity));
-                //ballEntity.vel = new Vector2(0,0);
+                player.hurt(ballEntity);
+                entitiesToAdd.add(new Shield(player));
                 return true;
             }
         }
@@ -83,6 +87,10 @@ public class GravoBallGame extends ApplicationAdapter {
                 //entities.add(new Comet(random.nextFloat() * Gdx.graphics.getWidth(), random.nextFloat() * Gdx.graphics.getHeight()));
             }
         }
+    }
+
+    public ArrayList<Entity> getEntities() {
+        return entities;
     }
 
     @Override
